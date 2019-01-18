@@ -86,6 +86,11 @@ class Game extends React.Component {
             stepNumber: step,
             xIsNext: (step % 2) === 0,
         });
+
+        let btns = document.getElementsByClassName("moves");
+        btns[step].style.fontWeight="bold";
+        let lis = document.getElementsByTagName("li");
+        lis[step].style.fontWeight = "bold";
     }
     render() {
         const history = this.state.history;
@@ -104,7 +109,7 @@ class Game extends React.Component {
                 'Go to game start';
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <button className="moves" onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             );
         });
