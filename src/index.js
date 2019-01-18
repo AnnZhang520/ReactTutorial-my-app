@@ -82,15 +82,6 @@ class Game extends React.Component {
             stepNumber: step,
             xIsNext: (step % 2) === 0,
         });
-
-        // let moves = document.getElementsByClassName("moves");
-        // for (let move of moves) {
-        //     move.style.fontWeight = "normal";
-        // }
-        // moves[step].style.fontWeight = "bold";
-
-        // let lis = document.getElementsByTagName("li");
-        // lis[step].style.fontWeight = "bold";
     }
     toggle() {
         this.setState({
@@ -104,16 +95,9 @@ class Game extends React.Component {
 
         let rows = history[history.length - 1].rows;
         let cols = history[history.length - 1].cols;
-        console.log('rows:' + rows);
-        console.log('cols:' + cols);
-        console.log('stepNumber:' + this.state.stepNumber);
-
-        // if (this.state.sort) {
-        //     rows = rows.slice();
-        //     rows.reverse();
-        //     cols = cols.slice();
-        //     cols.reverse();
-        // }
+        // console.log('rows:' + rows);
+        // console.log('cols:' + cols);
+        // console.log('stepNumber:' + this.state.stepNumber);
 
         let moves = history.map((step, move) => {
             const desc = move ?
@@ -142,7 +126,14 @@ class Game extends React.Component {
 
         let status;
         if (winner) {
-            status = 'Winner: ' + winner;
+            // console.log(winner);
+            // console.log(winner.linea);
+            status = 'Winner: ' + winner.squarea;
+            let squares = document.getElementsByClassName("square");
+            // console.log(squares);
+            for (let i of winner.linea) {
+                squares[i].style.color = "red";
+            }
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
@@ -165,6 +156,8 @@ class Game extends React.Component {
 }
 
 function calculateWinner(squares) {
+    // let squarea;
+    // let linea;
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -178,7 +171,10 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return {
+                squarea: squares[a],
+                linea: lines[i]
+            };
         }
     }
     return null;
