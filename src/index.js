@@ -95,9 +95,6 @@ class Game extends React.Component {
 
         let rows = history[history.length - 1].rows;
         let cols = history[history.length - 1].cols;
-        // console.log('rows:' + rows);
-        // console.log('cols:' + cols);
-        // console.log('stepNumber:' + this.state.stepNumber);
 
         let moves = history.map((step, move) => {
             const desc = move ?
@@ -126,16 +123,17 @@ class Game extends React.Component {
 
         let status;
         if (winner) {
-            // console.log(winner);
-            // console.log(winner.linea);
             status = 'Winner: ' + winner.squarea;
-            let squares = document.getElementsByClassName("square");
-            // console.log(squares);
+            const squares = document.getElementsByClassName("square");
             for (let i of winner.linea) {
                 squares[i].style.color = "red";
             }
         } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            if (this.state.stepNumber > 8) {
+                status = "result: draw!";
+            } else {
+                status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            }
         }
         return (
             <div className="game">
@@ -156,8 +154,6 @@ class Game extends React.Component {
 }
 
 function calculateWinner(squares) {
-    // let squarea;
-    // let linea;
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
