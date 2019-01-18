@@ -21,23 +21,18 @@ class Board extends React.Component {
     }
 
     render() {
+        var index = 0;
+        var rows = [];
+        for (let i = 0; i < 3; i++) {
+            var row = [];
+            for (let j = 0; j < 3; j++) {
+                row.push(this.renderSquare(index++));
+            }
+            rows.push(<div className="squares" key={i}>{row}</div>);
+        }
         return (
             <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+                {rows}
             </div>
         );
     }
@@ -65,8 +60,8 @@ class Game extends React.Component {
         }
         const rows = current.rows.slice();
         const cols = current.cols.slice();
-        const row = parseInt(i/3);
-        const col = i%3;
+        const row = Math.floor(i / 3);
+        const col = Math.floor(i % 3);
         rows[history.length - 1] = row;
         cols[history.length - 1] = col;
 
@@ -88,24 +83,27 @@ class Game extends React.Component {
         });
 
         let btns = document.getElementsByClassName("moves");
-        btns[step].style.fontWeight="bold";
-        let lis = document.getElementsByTagName("li");
-        lis[step].style.fontWeight = "bold";
+        for (let btn of btns) {
+            btn.style.fontWeight = "normal";
+        }
+        btns[step].style.fontWeight = "bold";
+        // let lis = document.getElementsByTagName("li");
+        // lis[step].style.fontWeight = "bold";
     }
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
 
-        const rows = current.rows;
-        const cols = current.cols;
+        const rows = history[history.length - 1].rows;
+        const cols = history[history.length - 1].cols;
         console.log('rows:' + rows);
         console.log('cols:' + cols);
         console.log('stepNumber:' + this.state.stepNumber);
 
         const moves = history.map((step, move) => {
             const desc = move ?
-                'Go to move #' + move + '[' + cols[move-1] + ',' + rows[move-1] + ']':
+                'Go to move #' + move + '[' + cols[move - 1] + ',' + rows[move - 1] + ']' :
                 'Go to game start';
             return (
                 <li key={move}>
