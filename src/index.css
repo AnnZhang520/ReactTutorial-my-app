@@ -1,7 +1,7 @@
 .square {
     background: #fff;
     border: 1px solid #000;
-    float: center;
+    float: left;
     font-size: 32px;
     /* font-weight: bold; */
     line-height: 34px;
@@ -12,3 +12,7 @@
     padding: 0;
     text-align: center;
   }
+
+.squares {
+  display: table;
+}
